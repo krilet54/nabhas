@@ -1,9 +1,16 @@
-RewriteEngine On
+Options -MultiViews
+DirectoryIndex index.html
 
-# Serve existing files/directories directly (including /external/*)
+RewriteEngine On
+RewriteBase /
+
+# Don't rewrite the root index file.
+RewriteRule ^index\.html$ - [L]
+
+# Serve existing files/directories directly (including /external/*).
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
-# Fallback all other routes to SPA entry
-RewriteRule ^ index.html [L]
+# SPA fallback for client-side routes like /about, /contact, /services/*.
+RewriteRule . /index.html [L]
